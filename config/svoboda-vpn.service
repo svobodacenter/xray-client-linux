@@ -1,0 +1,12 @@
+[Unit]
+Description=svoboda.center VPN Service
+After=network.target nss-lookup.target
+
+[Service]
+User=root
+WorkingDirectory=/etc/svoboda-vpn
+ExecStart=/etc/svoboda-vpn/run.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
