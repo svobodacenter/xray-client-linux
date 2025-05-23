@@ -278,13 +278,18 @@ install_dnscrypt_proxy() {
     wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/"$dnscrypt_proxy_version"/dnscrypt-proxy-linux_"$ARCH"-"$dnscrypt_proxy_version".tar.gz -O /tmp/dnscrypt-proxy.tar.gz
     tar -xzvf /tmp/dnscrypt-proxy.tar.gz -C /tmp
     mv /tmp/linux-$ARCH/dnscrypt-proxy /usr/sbin/dnscrypt-proxy
+    chmod +x /usr/sbin/dnscrypt-proxy
+    # SELinux 
+    if is_binary_installed "restorecon"; then
+        restorecon -v /usr/sbin/dnscrypt-proxy
+    fi
     rm /tmp/linux-$ARCH -r
 
     useradd -r -s /usr/sbin/nologin _dnscrypt-proxy
     groupadd _dnscrypt-proxy -U _dnscrypt-proxy
     mkdir -p /etc/dnscrypt-proxy/
-    cp ../config/dnscrypt-proxy.toml $DNSCRYPT_PROXY_CONF
-    cp ../config/dnscrypt-proxy.service /etc/systemd/system/
+    cp ./config/dnscrypt-proxy.toml $DNSCRYPT_PROXY_CONF
+    cp ./config/dnscrypt-proxy.service /etc/systemd/system/
     # chmod -R 755 /etc/dnscrypt-proxy/
 
     systemctl daemon-reload
@@ -441,6 +446,7 @@ get_dnscrypt_servers() {
 
 handle_xray_config() {
     prod_path="/usr/local/etc/xray/config.json"
+    mkdir -p /usr/local/etc/xray
     cp "$config_path" $prod_path
 
     # this prevents loops on linux

@@ -9,7 +9,7 @@ User=_dnscrypt-proxy
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 CacheDirectory=dnscrypt-proxy
-ExecStart=/usr/bin/dnscrypt-proxy --config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+ExecStart=/usr/sbin/dnscrypt-proxy --config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
 RuntimeDirectory=dnscrypt-proxy
 StateDirectory=dnscrypt-proxy
 
