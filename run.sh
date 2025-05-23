@@ -414,6 +414,7 @@ download_tun2socks() {
 install_xray() {
     echo "[~] Installing xray..."
 
+    adduser
     bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u xray
 
     echo "[+] xray installed"
@@ -693,6 +694,10 @@ setup() {
         install_dnscrypt_proxy
     fi
 
+    if ! id xray &>/dev/null; then
+        useradd -M -r -s /usr/sbin/nologin xray
+    fi
+
     if ! is_binary_installed "xray"; then
         install_xray
     fi
@@ -703,10 +708,6 @@ setup() {
 
     if ! id tun2socks &>/dev/null; then
         useradd -M -r -s /usr/sbin/nologin tun2socks
-    fi
-
-    if ! id xray &>/dev/null; then
-        useradd -M -r -s /usr/sbin/nologin xray
     fi
 }
 
